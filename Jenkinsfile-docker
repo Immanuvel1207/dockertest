@@ -1,16 +1,14 @@
 pipeline {
+
     agent any
 
-    tools {
-        jdk 'jdk17'  // Optional, if you need JDK for your setup
-    }
-
     stages {
+
         stage('Clean Workspace') {
             steps {
                 script {
                     echo "Cleaning workspace..."
-                    deleteDir()  // Clears the workspace
+                    deleteDir() // Deletes everything in the Jenkins workspace before starting
                 }
             }
         }
@@ -18,9 +16,8 @@ pipeline {
         stage('Git Checkout') {
             steps {
                 script {
-                    // Checkout the Git repository containing your project
-                    git branch: 'main', 
-                        credentialsId: 'github_secret', 
+                    git branch: 'main',
+                        credentialsId: 'github_secret',
                         url: 'https://github.com/Immanuvel1207/dockertest.git'
                 }
             }
@@ -29,19 +26,11 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 script {
-                    // Check if Dockerfile exists before proceeding
-                    if (!fileExists('Dockerfile')) {
-                        error "ERROR: Dockerfile is missing in the workspace!"
-                    }
-
                     withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
-                        def imageName = "immanuvel/devops"
-                        def tag = "try"
-                        
-                        // Build the Docker image
+                        def imageName = "immanuvel12/devops"
+                        def tag = "latest"
+
                         sh "docker build -t ${imageName}:${tag} ."
-                        
-                        // Push the Docker image to Docker Hub
                         sh "docker push ${imageName}:${tag}"
                     }
                 }
@@ -56,7 +45,7 @@ pipeline {
                     sh "docker rm jusjes_container || true"
 
                     // Run the new container
-                    sh "docker run -d --name jusjes_container -p 3001:80 immanuvel/devops:try"
+                    sh "docker run -d --name jusjes_container -p 3001:80 immanuvel12/devops:latest"
                 }
             }
         }
