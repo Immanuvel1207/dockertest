@@ -1,11 +1,11 @@
-# Use official Nginx image from Docker Hub
+# Use the official Nginx base image
 FROM nginx:latest
 
-# Copy the index.html (or any other HTML file) to the Nginx default directory
+# Copy index.html to the Nginx HTML directory
 COPY index.html /usr/share/nginx/html/index.html
 
-# Expose port 80 for the web server
-EXPOSE 80
+# Expose port 80
+EXPOSE 8080
 
-# Run Nginx in the foreground (required for Docker containers)
+# Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
