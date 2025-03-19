@@ -45,7 +45,7 @@ pipeline {
                     sh "docker rm jusjes_container || true"
 
                     // Run the new container
-                    sh "docker run -d --name jusjes_container -p 3001:80 immanuvel12/devops:latest"
+                    sh "docker run -d --name jusjes_container -p 5000:5000 immanuvel12/devops:latest"
                 }
             }
         }
