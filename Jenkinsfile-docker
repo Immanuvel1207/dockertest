@@ -28,7 +28,7 @@ pipeline {
                 script {
                     withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
                         def imageName = "immanuvel12/devops"
-                        def tag = "latest"
+                        def tag = "try"
 
                         sh "docker build -t ${imageName}:${tag} ."
                         sh "docker push ${imageName}:${tag}"
@@ -45,7 +45,7 @@ pipeline {
                     sh "docker rm jusjes_container || true"
 
                     // Run the new container
-                    sh "docker run -d --name jusjes_container -p 5000:5000 immanuvel12/devops:latest"
+                    sh "docker run -d --name jusjes_container -p 3005:3005 immanuvel12/devops:try"
                 }
             }
         }
